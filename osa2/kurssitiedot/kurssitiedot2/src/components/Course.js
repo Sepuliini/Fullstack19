@@ -1,7 +1,6 @@
 
 import React from 'react'
 
-
 const Header0 = (props) => {
     return (<h2>{props.courses[0].name}</h2>)
   }
