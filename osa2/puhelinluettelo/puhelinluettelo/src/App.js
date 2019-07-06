@@ -1,118 +1,72 @@
 import React from 'react';
 import './App.css';
 import { useState } from 'react'
+import { summarizers } from 'istanbul-lib-report';
 
-const Rows = (props) => {
-  const rows = () => props.persons.map(person => <Person person={person} number = {props.persons.number} key={props.persons.name} />)
 
-  const Person = ({ person }) => {
-
-    console.log(props.filterName)
-      
-  return (
-          <div>
-              {person.name}
-              {person.number}
-          </div>
-      )
-  }
-  
+const Person = (props) => {
   return (
     <div>
-        <ul>
-        {rows()}
-        </ul>
+    <p>{props.person.name}</p>
     </div>
-)
+  )
 }
-
 
 
 
 const App = () => {
-const [persons, setPersons] = useState([
-  { name: 'Arto Hellas', number: ' 040-123456' },
-  { name: 'Ada Lovelace', number: ' 39-44-5323523' },
-  { name: 'Dan Abramov', number: ' 12-43-234345' },
-  { name: 'Mary Poppendieck', number: ' 39-23-6423122' }
-]) 
+  const [ persons, setPersons] = useState([
+    { name: 'Arto Hellas' }
+  ]) 
+  const [ newName, setNewName ] = useState('')
 
-const [ newNumber, setNewNumber ] = useState('') 
-const [ newName, setNewName ] = useState('')
-const [ filterName, filter ] = useState('')
+  const rows = () => persons.map(person => 
+  <Person key = {person.name} person = {person} persons = {persons}/>
+  )
 
-const rows = () => persons.map(person => <Person person={person} number = {persons.number} key={persons.name} />)
+  console.log((persons.filter(p => p.name === newName).length > 0))
 
+  const addName = (event) => {
+    event.preventDefault()
+    console.log('button clicked', event.target)
 
-
-const addPerson = (event) => {
-  event.preventDefault()
-  console.log('button clicked', event.target)
-
-  const personObject = {
-      name: newName + ' ',
-      number: newNumber
+    const nameObject = {
+    name: newName  
     }
 
-    if (persons.filter(p => p.name === newName).length > 0) {
-      console.log('nimi on jo listassa')
-      setNewName('') 
-      setNewNumber('')
-      const message = newName + ` is already added to phonebook`
-      window.alert(message);
-    }
+      if ((persons.filter(p => p.name === newName).length > 0) === true) {
+        window.alert(`${newName} is already added to phonebook`)
+        setNewName('')
+      }
 
-    else {           
-      setPersons(persons.concat(personObject))
-      setNewName('')   
-      setNewNumber('') 
-    }
-
-}
-
-const handlePersonChange = (event) => {
-  console.log(event.target.value)
-  setNewName(event.target.value)
-}
-
-const handleNumberChange = (event) => {
-  console.log(event.target.value)
-  setNewNumber(event.target.value)
-}
-
-const handleFilerChange = (event) => {
-  console.log(event.target.value)
-  filter(event.target.value)
-}
+      else {
+        setPersons(persons.concat(nameObject))
+        setNewName('')
+      }
+  }
+ 
+  const handleNameChange = (event) => {
+    console.log(event.target.value)
+    setNewName(event.target.value)
+  }
 
 
-return (
-   
-  <div>
-    <h1>Phonebook</h1>
+  return (
     <div>
-    filter: <input value={filterName} onChange={handleFilerChange} />
-    <div>
-
-
-    <form onSubmit={addPerson}>  
-    <div>
-    name: <input value={newName} onChange={handlePersonChange} />
-    <div>
-    number: <input value={newNumber} onChange={handleNumberChange}/>
-    </div> 
-   <button type="submit">add</button> 
-   </div>
-    </form>   
-    <div>
-        <h2>Numbers</h2>
+      <h2>Phonebook</h2>
+      <form onSubmit = {addName}>
+        <div>
+          name: <input value = {newName}  onChange={handleNameChange}/>
+        </div>
+        <div>     
+          <button type="submit">add</button>
+        </div>
+      </form>
+      <h2>Numbers</h2>
+       {rows()}
     </div>
-    <Rows persons = {persons} filters = {filterName}/>
-  </div>
-  </div>
-  </div>
-)
-
+  )
 }
 
-export default App;
+
+export default App
