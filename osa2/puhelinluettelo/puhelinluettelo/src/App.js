@@ -1,28 +1,53 @@
 import React from 'react';
 import './App.css';
 import { useState } from 'react'
-import { summarizers } from 'istanbul-lib-report';
 
+const Person = ({persons, setPersons}) => {
+    const names = persons.map(person => <li key={person.id}>{person.name}
+    <em key={person.number}>{person.number}</em>
+     </li>)
 
-const Person = (props) => {
-  return (
+  return (  
     <div>
-    <p>{props.person.name}</p>
+     <p>
+        {names}
+      </p>
     </div>
   )
 }
 
+const Filter = ({persons, setPersons}) => {
+  //kesken
+  const [ filter, setFilter ] = useState('')
 
+  const handleFilterChange = (event) => {
+    console.log(event.target.value)
+    setFilter(event.target.value)
+  }
 
-const App = () => {
-  const [ persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
-  ]) 
-  const [ newName, setNewName ] = useState('')
+  const handleFilter = (event) => {
+    event.preventDefault()
+    const filters = filter.toLowerCase
 
-  const rows = () => persons.map(person => 
-  <Person key = {person.name} person = {person} persons = {persons}/>
+    setPersons(persons.filter(p => p.name.toLowerCase().includes(filter)))
+
+    console.log(persons)
+    setFilter('')
+  }
+
+  return (
+    <div>
+    <form onSubmit = {handleFilter}>
+    filter shown with: <input value = {filter} onChange = {handleFilterChange}/>
+    </form>
+    </div>
   )
+
+}
+
+const AddPerson = ({persons, setPersons}) => {
+  const [ newName, setNewName ] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')
 
   console.log((persons.filter(p => p.name === newName).length > 0))
 
@@ -30,43 +55,74 @@ const App = () => {
     event.preventDefault()
     console.log('button clicked', event.target)
 
-    const nameObject = {
-    name: newName  
+    const personObject = {
+    name: newName + ' ',
+    number: newNumber
     }
 
-      if ((persons.filter(p => p.name === newName).length > 0) === true) {
+      if ((persons.filter(p => p.name.toLowerCase === newName).length > 0) === true) {
         window.alert(`${newName} is already added to phonebook`)
-        setNewName('')
+        setNewName('')  
+        setNewNumber('')
       }
 
       else {
-        setPersons(persons.concat(nameObject))
+        setPersons(persons.concat(personObject))
+        console.log(persons)
+        setNewNumber('')
         setNewName('')
       }
   }
- 
+
   const handleNameChange = (event) => {
     console.log(event.target.value)
     setNewName(event.target.value)
   }
 
+  const handleNumberChange = (event) => {
+    console.log(event.target.value)
+    setNewNumber(event.target.value)
+  }
 
-  return (
-    <div>
-      <h2>Phonebook</h2>
-      <form onSubmit = {addName}>
+return (
+  <div>
+    <form onSubmit = {addName}>
         <div>
           name: <input value = {newName}  onChange={handleNameChange}/>
+          <div>
+            number: <input value = {newNumber} onChange={handleNumberChange}/>
+          </div>
         </div>
         <div>     
           <button type="submit">add</button>
         </div>
       </form>
-      <h2>Numbers</h2>
-       {rows()}
-    </div>
+  </div>
   )
 }
 
+
+const App = () => {
+  const [ persons, setPersons] = useState([
+    { name: 'Arto Hellas', number: '040-123456' },
+    { name: 'Ada Lovelace', number: '39-44-5323523' },
+    { name: 'Dan Abramov', number: '12-43-234345' },
+    { name: 'Mary Poppendieck', number: '39-23-6423122' }
+  ]) 
+
+  return (
+    <div>
+      <div>
+        <h2>Phonebook</h2>
+        <Filter persons = {persons} setPersons = {setPersons}/>
+      </div>
+      <h2>Add a new</h2>
+        <AddPerson persons={persons} setPersons={setPersons}/>
+      <h2>Numbers</h2>
+       <Person persons = {persons} />
+    </div>
+    
+  )
+}
 
 export default App
