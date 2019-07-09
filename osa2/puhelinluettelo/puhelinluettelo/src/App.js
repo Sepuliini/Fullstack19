@@ -17,7 +17,7 @@ const Person = ({persons, setPersons}) => {
 }
 
 const Filter = ({persons, setPersons}) => {
-  //kesken
+  //?
   const [ filter, setFilter ] = useState('')
 
   const handleFilterChange = (event) => {
@@ -27,9 +27,8 @@ const Filter = ({persons, setPersons}) => {
 
   const handleFilter = (event) => {
     event.preventDefault()
-    const filters = filter.toLowerCase
 
-    setPersons(persons.filter(p => p.name.toLowerCase().includes(filter)))
+    setPersons(persons.filter(pe => pe.name.toLowerCase().includes(filter)))
 
     console.log(persons)
     setFilter('')
@@ -104,10 +103,7 @@ return (
 
 const App = () => {
   const [ persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456' },
-    { name: 'Ada Lovelace', number: '39-44-5323523' },
-    { name: 'Dan Abramov', number: '12-43-234345' },
-    { name: 'Mary Poppendieck', number: '39-23-6423122' }
+
   ]) 
 
   return (
