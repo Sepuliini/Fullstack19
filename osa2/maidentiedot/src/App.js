@@ -3,20 +3,49 @@ import './App.css';
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
-const CountryList = ({countries}) => {
+const CountryList = ({countries, filter}) => {
+  console.log('pituus', countries.length)
+    console.log('ei toimi')
+
+
+    return (
+      <div>
+        {countries.name}
+        <button onClick={() => filter(countries.name)}>show</button>
+      </div>
+    )
+}
+
+const OneCountry = ({countries}) => {
+  console.log('kieli: ', countries.languages)
 
   return (
     <div>
-      {countries}
+      <h1>{countries.name}</h1>
+        <p>
+          Capital {countries.capital}
+        </p>
+        <p>
+        Population {countries.population}
+        </p>
+        <h3>languages</h3>     
+        <ul>
+          {countries.languages.map(l => <li key={l.name}>{l.name}</li>)}
+          {countries.languages.map(la => <li key={la.nativeName}>{la.nativeName}</li>)}
+        </ul>   
+        <img src={countries.flag} width={250}/>   
     </div>
   )
 }
 
-const CountriesFiltered = ({countries}) => {
-
+const CountriesFiltered = ({countries, filter}) => {
   if (countries.length === 1) {
-      return (
-      <CountryList countries = {countries[0]} />)
+    console.log('toimii')
+    console.log(countries.length)
+
+      return (   
+       <OneCountry countries = {countries[0]} />
+      )
   }
 
   if (countries.length > 10) {
@@ -28,7 +57,7 @@ const CountriesFiltered = ({countries}) => {
   }
 
   return (
-    countries.map(c => <CountryList countries = {c.name} key = {c.name}/>
+    countries.map(c => <CountryList countries = {c} key = {c.name} filter = {filter}/>
           )
        )
     }
@@ -50,7 +79,6 @@ function App() {
   }, [])
 
   console.log('render', countries.length)
-  console.log(countries.name)
 
     const handleFilterChange = (event) => {
       console.log(event.target.value)
@@ -62,8 +90,7 @@ function App() {
       event.preventDefault()
 
       setCountry(countries.filter(country =>
-        country.name.includes(filter)))
-        
+        country.name.includes(filter)))   
     }
 
 
@@ -77,7 +104,7 @@ function App() {
           </div>
         </form>
         <div>
-          <CountriesFiltered countries = {countries} />
+          <CountriesFiltered countries = {countries} filter = {setNewFilter}/>
         </div>
   </div>
   );
