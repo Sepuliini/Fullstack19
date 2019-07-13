@@ -3,10 +3,11 @@ import './App.css';
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
+import Weather from './components/Weather'
+
 const CountryList = ({countries, filter}) => {
   console.log('pituus', countries.length)
     console.log('ei toimi')
-
 
     return (
       <div>
@@ -17,7 +18,6 @@ const CountryList = ({countries, filter}) => {
 }
 
 const OneCountry = ({countries}) => {
-  console.log('kieli: ', countries.languages)
 
   return (
     <div>
@@ -34,6 +34,7 @@ const OneCountry = ({countries}) => {
           {countries.languages.map(la => <li key={la.nativeName}>{la.nativeName}</li>)}
         </ul>   
         <img src={countries.flag} width={250}/>   
+        <Weather countries = {countries.capital}/>
     </div>
   )
 }
@@ -94,8 +95,6 @@ function App() {
     }
 
 
-  //const rows = () => countries.map(c => <CountryList key = {countries.name} countries = {c.name}/>)
-
   return (
     <div>
         <form onSubmit = {filterCountries}>
@@ -104,7 +103,7 @@ function App() {
           </div>
         </form>
         <div>
-          <CountriesFiltered countries = {countries} filter = {setNewFilter}/>
+          <CountriesFiltered countries = {countries} filter = {setNewFilter} filterCountries = {filterCountries}/>
         </div>
   </div>
   );
