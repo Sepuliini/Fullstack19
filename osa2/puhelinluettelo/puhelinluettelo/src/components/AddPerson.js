@@ -1,4 +1,8 @@
 import React, { useState } from 'react'
+import axios from 'axios'
+
+//services
+import personService from '../services/persons'
 
 
 const AddPerson = ({persons, setPersons}) => {
@@ -16,19 +20,28 @@ const AddPerson = ({persons, setPersons}) => {
       number: newNumber
       }
   
-        if ((persons.filter(p => p.name.toLowerCase === newName).length > 0) === true) {
+        if ((persons.filter(p => p.name.toLowerCase === newName)) === true) {
+
+          console.log('toimiiko?')
+
           window.alert(`${newName} is already added to phonebook`)
           setNewName('')  
           setNewNumber('')
         }
   
         else {
-          setPersons(persons.concat(personObject))
-          console.log(persons)
-          setNewNumber('')
-          setNewName('')
-        }
-    }
+             
+
+            personService
+            .create(personObject)
+            .then(response => {
+              setPersons(persons.concat(response.data))
+              setNewName('')
+              setNewNumber('')
+            })
+
+       }
+  }
   
     const handleNameChange = (event) => {
       console.log(event.target.value)

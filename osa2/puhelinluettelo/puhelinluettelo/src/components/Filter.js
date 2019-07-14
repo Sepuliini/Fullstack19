@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 
 const Filter = ({persons, setPersons}) => {
-    //?
+    
     const [ filter, setFilter ] = useState('')
   
     const handleFilterChange = (event) => {
