@@ -11,9 +11,7 @@ import Person from './components/Person'
 import personService from './services/persons'
 
 const App = () => {
-  const [ persons, setPersons] = useState([
-
-  ]) 
+  const [ persons, setPersons] = useState([]) 
 
   useEffect(() => {
     personService
@@ -22,8 +20,6 @@ const App = () => {
         setPersons(response.data)
       })
   }, [])
-
-  
 
 
   return (

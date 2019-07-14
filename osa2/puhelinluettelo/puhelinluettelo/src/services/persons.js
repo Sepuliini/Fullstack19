@@ -12,5 +12,10 @@ const getAll = () => {
   const update = (id, newObject) => {
     return axios.put(`${baseUrl}/${id}`, newObject)
   }
-  
-  export default {getAll, create, update}
+
+  const deletePerson = id => {
+    return axios.delete(`${baseUrl}/${id}`)
+        .then(res => res.data)
+}
+
+  export default {getAll, create, update, deletePerson}

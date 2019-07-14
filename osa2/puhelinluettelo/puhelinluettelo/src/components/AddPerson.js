@@ -17,21 +17,18 @@ const AddPerson = ({persons, setPersons}) => {
   
       const personObject = {
       name: newName + ' ',
-      number: newNumber
+      number: newNumber,
+      id: persons.length + 1 
       }
   
-        if ((persons.filter(p => p.name.toLowerCase === newName)) === true) {
-
+        if ((persons.filter(p => p.name.toLowerCase === newName.toLowerCase)).length > 0) {
           console.log('toimiiko?')
-
           window.alert(`${newName} is already added to phonebook`)
           setNewName('')  
           setNewNumber('')
         }
   
         else {
-             
-
             personService
             .create(personObject)
             .then(response => {
