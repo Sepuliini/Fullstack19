@@ -30,21 +30,21 @@ const AddPerson = ({persons, setPersons}) => {
             personService
               .updatePerson(oldPerson.id, replacePerson)
               .then(replacePerson => {
-                setPersons(persons.map(p => p.id !== oldPerson.id ? p : replacePerson))
+              setPersons(persons.map(p => p.id !== oldPerson.id ? p : replacePerson))
 
-                setNewName('')
-                setNewNumber('')
+              setNewName('')
+              setNewNumber('')
             })
           }       
         }
   
       else {
-            personService
-            .create(personObject)
-            .then(response => {
-              setPersons(persons.concat(response.data))
-              setNewName('')
-              setNewNumber('')
+          personService
+          .create(personObject)
+          .then(response => {
+          setPersons(persons.concat(response.data))
+          setNewName('')
+          setNewNumber('')
       })
     }
   }
