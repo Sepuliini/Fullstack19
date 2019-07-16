@@ -23,10 +23,10 @@ const AddPerson = ({persons, setPersons}) => {
       const oldPerson = persons.find(p => p.name === newName)
       console.log('löytyykö?' + oldPerson)
 
-        if (oldPerson != null) {
+        if (oldPerson !== null) {
           const replacePerson = {...oldPerson, number: newNumber}
 
-          if (window.confirm(`${newName}' is already added to phonebook, replace the old number with a new one?`)) {
+          if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
             personService
               .updatePerson(oldPerson.id, replacePerson)
               .then(replacePerson => {
