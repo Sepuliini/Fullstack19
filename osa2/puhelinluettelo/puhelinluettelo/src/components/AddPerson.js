@@ -15,7 +15,7 @@ const AddPerson = ({persons, setPersons}) => {
       console.log('button clicked', event.target)
   
       const personObject = { 
-      name: newName,
+      name: newName + ' ',
       number: newNumber,
       id: persons.length + 1 
       }
