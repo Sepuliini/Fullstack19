@@ -4,7 +4,6 @@ import axios from 'axios'
 //services
 import personService from '../services/persons'
 
-
 const AddPerson = ({persons, setPersons}) => {
     const [ newName, setNewName ] = useState('')
     const [ newNumber, setNewNumber ] = useState('')
@@ -15,29 +14,39 @@ const AddPerson = ({persons, setPersons}) => {
       event.preventDefault()
       console.log('button clicked', event.target)
   
-      const personObject = {
-      name: newName + ' ',
+      const personObject = { 
+      name: newName,
       number: newNumber,
       id: persons.length + 1 
       }
-  
-        if ((persons.filter(p => p.name.toLowerCase === newName.toLowerCase)).length > 0) {
-          console.log('toimiiko?')
-          window.alert(`${newName} is already added to phonebook`)
-          setNewName('')  
-          setNewNumber('')
+
+      const oldPerson = persons.find(p => p.name === newName)
+      console.log('löytyykö?' + oldPerson)
+
+        if (oldPerson != null) {
+          const replacePerson = {...oldPerson, number: newNumber}
+
+          if (window.confirm(`Are you sure you want to replace ${newName}'s number with a new one?`)) {
+            personService
+              .updatePerson(oldPerson.id, replacePerson)
+              .then(replacePerson => {
+                setPersons(persons.map(p => p.id !== oldPerson.id ? p : replacePerson))
+
+                setNewName('')
+                setNewNumber('')
+            })
+          }       
         }
   
-        else {
+      else {
             personService
             .create(personObject)
             .then(response => {
               setPersons(persons.concat(response.data))
               setNewName('')
               setNewNumber('')
-            })
-
-       }
+      })
+    }
   }
   
     const handleNameChange = (event) => {

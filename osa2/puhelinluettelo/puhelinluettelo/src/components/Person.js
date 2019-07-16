@@ -5,27 +5,24 @@ import axios from 'axios'
 import personService from '../services/persons'
 
 const Person = ({persons, setPersons}) => {
-
     const names = persons.map(person => <li key={person.id}>{person.name}
     <em key={person.number}>{person.number}</em>
-    <em> <button onClick={() => personDelete()}>delete</button></em>
+    <em> <button onClick={() => personDelete(person.id)}>delete</button></em>
      </li>)
 
-     const personDelete = () => {
-
-
-      //kesken
-
-
-      personService.deletePerson(persons.id)
+const personDelete = id => {
+  const person = persons.find(p => p.id === id)
+  if (window.confirm(`Are you sure you want to delete ${person.name}?`)) {
+    personService
+      .deletePerson(id)
       .then(res => {
-        setPersons(persons.filter(p => p.id !== persons.id))
+        setPersons(persons.filter(person => person.id !== id))    
       })
-      .catch(err => {
-        setPersons(persons.filter(p => p.id !== persons.id))   
-        })
-     }
-
+      .catch(err => {  
+        console.log('error')  
+    })
+  }
+}
 
   return (  
     <div>
