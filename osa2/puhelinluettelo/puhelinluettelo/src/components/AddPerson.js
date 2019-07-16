@@ -67,8 +67,8 @@ const AddPerson = ({persons, setPersons}) => {
             <div>
               number: <input value = {newNumber} onChange={handleNumberChange}/>
             </div>
-          </div>
-          <div>     
+            </div>
+            <div>     
             <button type="submit">add</button>
           </div>
         </form>
