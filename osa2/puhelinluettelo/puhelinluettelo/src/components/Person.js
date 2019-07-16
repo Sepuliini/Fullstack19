@@ -1,10 +1,25 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import '../index.css'
 
 //services
 import personService from '../services/persons'
 
+const Notification = ({ message, className }) => {
+  if (message === null) {
+   return null
+  }
+
+ return (
+   <div className= 'error'>
+     {message}
+   </div>
+ )
+}
+
 const Person = ({persons, setPersons}) => {
+  const [ message, setMessage] = useState(null)
+
     const names = persons.map(person => <li key={person.id}>{person.name}
     <em key={person.number}>{person.number}</em>
     <em> <button onClick={() => personDelete(person.id)}>delete</button></em>
@@ -21,11 +36,21 @@ const personDelete = id => {
       .catch(err => {  
         console.log('error')  
     })
+
+    setMessage(
+      `deleted ${person.name}`
+    )
+    setTimeout(() => {
+    setMessage(null)
+    }, 5000)
+
+
   }
 }
 
   return (  
     <div>
+        <Notification message = {message}/>
         {names}     
     </div>
   )

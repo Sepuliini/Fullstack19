@@ -1,13 +1,27 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import '../index.css'
 
 //services
 import personService from '../services/persons'
 
+const Notification = ({ message, className }) => {
+  if (message === null) {
+   return null
+  }
+
+ return (
+   <div className= 'good'>
+     {message}
+   </div>
+ )
+}
+
 const AddPerson = ({persons, setPersons}) => {
     const [ newName, setNewName ] = useState('')
     const [ newNumber, setNewNumber ] = useState('')
-  
+    const [ message, setMessage] = useState(null)
+
     console.log((persons.filter(p => p.name === newName).length > 0))
   
     const addName = (event) => {
@@ -31,6 +45,13 @@ const AddPerson = ({persons, setPersons}) => {
               .updatePerson(oldPerson.id, replacePerson)
               .then(replacePerson => {
               setPersons(persons.map(p => p.id !== oldPerson.id ? p : replacePerson))
+
+              setMessage(
+                `Updated ${newName}`
+              )
+              setTimeout(() => {
+              setMessage(null)
+              }, 5000)
 
               setNewName('')
               setNewNumber('')
@@ -61,6 +82,7 @@ const AddPerson = ({persons, setPersons}) => {
   
   return (
     <div>
+      <Notification message={message}/>
       <form onSubmit = {addName}>
           <div>
             name: <input value = {newName}  onChange={handleNameChange}/>
