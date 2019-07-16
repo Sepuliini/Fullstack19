@@ -12,7 +12,7 @@ const Person = ({persons, setPersons}) => {
 
 const personDelete = id => {
   const person = persons.find(p => p.id === id)
-  if (window.confirm(`Are you sure you want to delete ${person.name}?`)) {
+  if (window.confirm(`Delete ${person.name}?`)) {
     personService
       .deletePerson(id)
       .then(res => {

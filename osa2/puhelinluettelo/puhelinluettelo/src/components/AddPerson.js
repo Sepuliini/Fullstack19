@@ -26,7 +26,7 @@ const AddPerson = ({persons, setPersons}) => {
         if (oldPerson != null) {
           const replacePerson = {...oldPerson, number: newNumber}
 
-          if (window.confirm(`Are you sure you want to replace ${newName}'s number with a new one?`)) {
+          if (window.confirm(`${newName}' is already added to phonebook, replace the old number with a new one?`)) {
             personService
               .updatePerson(oldPerson.id, replacePerson)
               .then(replacePerson => {
