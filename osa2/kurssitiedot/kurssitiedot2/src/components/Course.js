@@ -1,55 +1,54 @@
-
 import React from 'react'
 
-const Header0 = (props) => {
-    return (<h2>{props.courses[0].name}</h2>)
-  }
-  
-  const Header1 = (props) => {
-    return (<h2>{props.courses[1].name}</h2>)
-  }
-  
-  const Total0 = (props) => {
-    const total = props.courses.parts.reduce( (x, y) => {
-      console.log('what is happening',x, y)
-      return (
-          x + y.exercises
-      )
-    }, 0)
-    return (<p>Yhteensä {total} tehtävää</p>)
-  }
-  
-  const Total1 = (props) => {
-    const total = props.courses.parts.reduce( (x, y) => {
-      console.log('what is happening',x, y)
-      return (
-          x + y.exercises
-      )
-    }, 0)
-    return (<p>Yhteensä {total} tehtävää</p>)
-  }
-  
-  const Parts0 = (props) => {
-    return props.courses.parts.map(courses => <p key = {courses.id} >{courses.name} {courses.exercises}</p>)
-  }
-  
-  const Parts1 = (props) => {
-    return props.courses.parts.map(courses => <p key = {courses.id} >{courses.name} {courses.exercises}</p>)
-  }
-  
-  const Course = (props) => {  
-      return (
-          <div>
-           <h1>Web development curriculum</h1>
-           <Header0 courses = {props.courses}/>      
-           <Parts0 courses = {props.courses[0]} />
-           <Total0 courses = {props.courses[0]} />       
-           <Header1 courses = {props.courses}/> 
-           <Parts1 courses = {props.courses[1]} />
-          <Total0 courses = {props.courses[1]} />     
+const Header = ({ header }) => {
+    console.log(header)
+    return (
+      <div>
+        <h2>{header}</h2>
       </div>
-      )           
+    );
+  }
+  
+  const Parts = ({ part, exercises }) => {
+    return (
+      <div>
+        <p>{part} {exercises}</p>
+      </div>
+    )
+  }
+  
+  const Content = ({ parts }) => {
+    console.log(parts);
+  
+    const osat = () => parts.map(i =>
+      <Parts key={i.id} part={i.name} exercises={i.exercises} />
+    )
+  
+    const exercises = parts.map(j => j.exercises);
+    console.log("e", exercises);
+  
+    const total = exercises.reduce((s, p) => {
+      console.log("s", s)
+      console.log("s+p", s + p)
+      return s + p;
+    })
+  
+    return (
+      <div>
+        {osat()}
+        Total of {total} exercises!
+      </div>
+    );
+  }
+  
+  
+  const Course = ({ course }) => {
+    return (
+      <div>
+        <Header header={course.name} />
+        <Content parts={course.parts} />
+      </div>
+    )
   }
 
   export default Course
-  
