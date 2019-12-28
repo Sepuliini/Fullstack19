@@ -1,32 +1,26 @@
-import React, { useState } from 'react'
+import axios from 'axios'
+import React, { useState, useEffect } from 'react'
+import ReactDOM from 'react-dom'
 
 
-const Filter = ({persons, setPersons}) => {
-    
-    const [ filter, setFilter ] = useState('')
-  
+
+import Persons from './Person'
+import AddPersons from './AddPerson'
+import Notification from './Notification'
+
+const Filter = ({ newFilter, setNewFilter }) => {
     const handleFilterChange = (event) => {
       console.log(event.target.value)
-      setFilter(event.target.value)
+      setNewFilter(event.target.value)
     }
-  
-    const handleFilter = (event) => {
-      event.preventDefault()
-  
-      setPersons(persons.filter(p => p.name.toLowerCase().includes(filter)))
-  
-      console.log(persons)
-      setFilter('')
-    }
-  
     return (
       <div>
-      <form onSubmit = {handleFilter}>
-      filter shown with: <input value = {filter} onChange = {handleFilterChange}/>
-      </form>
+        <p>
+          filter: <input value={newFilter} onChange={handleFilterChange} />
+        </p>
       </div>
     )
-  
   }
 
-  export default Filter
+
+export default Filter
